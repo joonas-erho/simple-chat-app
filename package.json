@@ -1,0 +1,20 @@
+{
+  "name": "simple-chat-app",
+  "version": "1.0.0",
+  "description": "Simplistic Node.js-based console chat server and client",
+  "scripts": {
+    "server": "node server.js",
+    "client": "node client.js",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/joonas-erho/simple-chat-app.git"
+  },
+  "author": "Joonas Erho",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/joonas-erho/simple-chat-app/issues"
+  },
+  "homepage": "https://github.com/joonas-erho/simple-chat-app#readme"
+}
