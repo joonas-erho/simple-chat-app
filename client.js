@@ -23,12 +23,16 @@ logOn()
 // This constantly listens for user input.
 // Whenever it's given, re-render the console window.
 rl.on('line', (line) => {
+  // Do some basic command checking here.
   if (line.startsWith('/')) {
     if (line.startsWith('/exit')) {
       client.end()
     }
     else if (line.startsWith('/whisper')) {
       client.write(line.toString().trim())
+    }
+    else if (line.startsWith('/join')) {
+      console.log('Already joined.')
     }
     else {
       console.log('Command not found.')
@@ -38,18 +42,25 @@ rl.on('line', (line) => {
   }
 })
 
+// This is called when a username is given.
 function attemptConnect() {
+  // On connection, we use the join command. It can't be
+  // used again if we have already joined.
   client.connect(port, () => {
     console.log(`Connected to server on port ${port}.`)
     client.write(`/join ${username}`)
     joined = true
   })
   
+  // This is called whenever we get data from the server.
+  // We clear the screen and retype the data.
   client.on('data', function(data) {
     process.stdout.write('\u001b[3J\u001b[1J');
     console.log(data.toString())
   })
   
+  // Called when the connection is closed, specifically when
+  // closed by the client.
   client.on('close', function() {
     console.log('Client: Connection Closed')
     process.exit(0)
@@ -60,7 +71,9 @@ function attemptConnect() {
   // closes so the current implementation reflects that.
   client.on('error', function() {
     console.log('Server: Connection Closed')
-    process.exit(1)
+
+    // Error code for unexpected server connection closure.
+    process.exit(500)
   })
 }
 
